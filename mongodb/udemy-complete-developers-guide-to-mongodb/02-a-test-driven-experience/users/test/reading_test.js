@@ -25,4 +25,14 @@ describe('Reading users out of the database', () => {
       });
   });
 
+  it('find a user with a particular id', (done) => {
+    // User.findOne is another class level function.  This time finding one particular record based on the object passed in.
+    // in this case we are trying to find a user with a specific id
+    User.findOne({ _id: joe._id })
+      .then((user) => {
+        assert(user.name === 'Joe');
+        done();
+      });
+  });
+
 });
