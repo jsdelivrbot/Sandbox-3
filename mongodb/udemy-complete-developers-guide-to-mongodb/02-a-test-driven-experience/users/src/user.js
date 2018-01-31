@@ -4,7 +4,14 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
-  name: String,
+  // usually in a schema we can give each property a name and a type
+  // such as name: String.
+  // here we have set some validation that the name is required
+  // so to add the extra detail for the field we create an object with its details - so it's type, required etc
+  name: {
+    type: String,
+    required: [true, 'Name is required.']
+  },
   postCount: Number
 });
 
