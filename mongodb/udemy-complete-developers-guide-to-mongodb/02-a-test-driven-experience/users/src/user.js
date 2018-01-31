@@ -10,6 +10,12 @@ const UserSchema = new Schema({
   // so to add the extra detail for the field we create an object with its details - so it's type, required etc
   name: {
     type: String,
+    // using the validate property we can specify a function to be run to validate a value, in this case name, as it's being passed to the function - it's length should be > 2
+    validate: {
+      validator: (name) => name.length > 2,
+      // the message property is the message we want when the validation fails.
+      message: 'Name must be at least 3 characters.'
+    },
     required: [true, 'Name is required.']
   },
   postCount: Number
