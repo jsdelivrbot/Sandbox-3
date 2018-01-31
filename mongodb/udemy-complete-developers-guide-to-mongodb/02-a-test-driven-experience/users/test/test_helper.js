@@ -1,3 +1,5 @@
+/* THE PURPOSE OF THESE EXAMPLES IS NOT NECESSARILY TO SHOW GOOD TESTS.  BUT TO SHOW HOW C.R.U.D METHODS WORK AGAINST WITH A MONGODB DATABASE */
+
 // initialisation code - connect to the mongodb database
 
 // require mongoose module
