@@ -6,7 +6,7 @@ describe('Updating records', () => {
   let joe;
 
   beforeEach((done) => {
-    joe = new User({ name: 'Joe' });
+    joe = new User({ name: 'Joe', postCount: 0 });
     joe.save()
       .then(() => done());
   });
@@ -55,6 +55,25 @@ describe('Updating records', () => {
   it('A model class can find a record by id and update', (done) => {
     // same as above by finding one user by its id then updating it
     assertName(User.findByIdAndUpdate(joe._id, { name: 'Alex' }), done);
+  });
+
+  it('A user can have their postCount incremented by 1', (done) => {
+    // here we want to increment the postCount of all records where the user name is 'Joe'
+    // we dont want to pull back all the records and iterate over them incrementing the postCount and saving the records.  This is not performant.  Instead we use update operators and let MongoDB do the work for us.
+    User.update(
+      { name: 'Joe' }, 
+      // $inc is an update operator to which will increment the postCount by 1 for all the records matched by the object above
+      { $inc: { postCount: 1 } }
+    )
+    // then we do an assertion by finding a record and checking the postCount value
+    .then(() => User.findOne({ name: 'Joe' }))
+    .then((user) => {
+      assert(user.postCount === 1);
+      done();
+    });
+
+    // more info about update operators at
+    // https://docs.mongodb.com/manual/reference/operator/update/
   });
 
 });
