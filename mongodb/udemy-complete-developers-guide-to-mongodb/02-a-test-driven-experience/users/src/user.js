@@ -23,7 +23,11 @@ const UserSchema = new Schema({
   // it is an array of type PostSchema which we imported from post.js
   // with this we can say a user can have many posts
   posts: [PostSchema],
-  likes: Number   // refers to the number of likes a user may have
+  likes: Number,   // refers to the number of likes a user may have
+  blogPosts: [{
+    type: Schema.Types.ObjectId,
+    ref: 'blogPost'   // NOTE the case used in blogPost
+  }]
 });
 
 // virtual properties are added outside of the schema definition
