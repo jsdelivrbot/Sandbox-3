@@ -2,6 +2,7 @@
 
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const PostSchema = require('./post');
 
 const UserSchema = new Schema({
   // usually in a schema we can give each property a name and a type
@@ -18,7 +19,11 @@ const UserSchema = new Schema({
     },
     required: [true, 'Name is required.']
   },
-  postCount: Number
+  postCount: Number,
+  // the posts property is an embedded document
+  // it is an array of type PostSchema which we imported from post.js
+  // with this we can say a user can have many posts
+  posts: [PostSchema]
 });
 
 // create a variable (although here its called a class) which is based on the 'user' collection in the mongodb database we are using - the string 'user' is the collection in the mongodb database.  if it does not exist then it will be created.
