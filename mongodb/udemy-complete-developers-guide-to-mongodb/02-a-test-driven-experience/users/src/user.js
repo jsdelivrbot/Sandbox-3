@@ -42,6 +42,18 @@ UserSchema.virtual('postCount').get(function() {
   return this.posts.length;
 });
 
+// this is a pre hook (or middleware) which will run before some event occurs, in this case 'remove'
+// this functionality can be used to simulate the cascading delete or update we would have with relational databases
+UserSchema.pre('remove', function(next) {
+  // get a reference to blogPost
+  const BlogPost = mongoose.model('blogPost');
+
+  // here we are calling .remove() which uses each _id field and uses the operator '$in' to see if it is in the blogPosts for the user, if it is then remove it.
+  BlogPost.remove({ _id: { $in: this.blogPosts } })
+    .then(() => next());
+  // we call next() to say we have done with our middleware, move on to the next middleware if there is one
+});
+
 // create a variable (although here its called a class) which is based on the 'user' collection in the mongodb database we are using - the string 'user' is the collection in the mongodb database.  if it does not exist then it will be created.
 // and ensure it adheres to the UserSchema - so we expect the user to have a name of type String etc
 // the User variable (or class) represents an entire collection in the database, not just a single user.
