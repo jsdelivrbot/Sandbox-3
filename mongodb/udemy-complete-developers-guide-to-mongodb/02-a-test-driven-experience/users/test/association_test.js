@@ -27,18 +27,49 @@ describe('Associations', () => {
       .then(() => done());
   });
 
-  it.only('saves a relation between a user and a blogpost', (done) => {
+  it('saves a relation between a user and a blogpost', (done) => {
     User.findOne({ name: 'Joe' })
+      // here we have added .populate() and passed the property name we want to populate (we can pass multiple property names seperated by a comma)
+      // this will get all the data for the property based on the reference in our user model, so here we will get all the blogPost information rather than just the array of ObjectId's if we didn't use the .populate()
+      // NOTE at this point we will not get all the comments associated with each blogPost
+      .populate('blogPosts')
       .then((user) => {
-        console.log(user);
+        assert(user.blogPosts[0].title === 'JS is Great');
         done();
       });
   });
 
   // it.only will run only this test even if there are hundreds of tests.
   // useful for testing one thing in isolation
+  //
   // it.only('run only this test', () => {
-
+  //
   // });
+
+  it('saves a full relation graph - blogPosts, user and comments', (done) => {
+    User.findOne({ name: 'Joe' })
+      // in this example we use populate to deeply get all of our data
+      // we pass an object to it and multiple paths
+      // the 'model' property tells mongoose to base the path off of the model value, for example comment or user
+      // NOTE: be careful not to overdo the amount of associations we want from mongoose, this can have a negative performance impact
+      .populate({
+        path: 'blogPosts',
+        populate: {
+          path: 'comments',
+          model: 'comment',
+          populate: {
+            path: 'user',
+            model: 'user'
+          }
+        }
+      })
+      .then((user) => {
+        assert(user.name === 'Joe');
+        assert(user.blogPosts[0].title === 'JS is Great');
+        assert(user.blogPosts[0].comments[0].content === 'Congratulations on a great post!');
+        assert(user.blogPosts[0].comments[0].user.name === 'Joe');
+        done();
+      });
+  });
 
 });
