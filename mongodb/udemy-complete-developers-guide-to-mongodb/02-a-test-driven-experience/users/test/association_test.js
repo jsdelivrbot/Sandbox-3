@@ -22,7 +22,8 @@ describe('Associations', () => {
     // here the same thing happens although a comment only has one user
     comment.user = joe;
 
-    // Promise.all is a native ES6 function which will take an array of promises and return them as one single promise once all the promises have been resolved.
+    // Promise.all is a native ES6 function which will take an array of promises and return them as one single promise once all the promises have been resolved
+    // NOTE: it is not guaranteed that each record will be saved in order, comment might save before joe.
     Promise.all([joe.save(), blogPost.save(), comment.save()])
       .then(() => done());
   });
