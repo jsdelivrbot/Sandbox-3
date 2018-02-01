@@ -30,7 +30,15 @@ before((done) => {
 // beforeEach is a hook it will run before each test
 // each function in mocha can take a done callback function, this essentially says to mocha you can carry on once this done callback function is called.
 beforeEach((done) => {
-  mongoose.connection.collections.users.drop(() => {
-    done();
+  // mongoose will normalise the collection name by lowercasing the collection name when it is saved over to mongodb so our blogPost will become blogpost in mongodb
+  const { users, comments, blogposts } = mongoose.connection.collections;
+  
+  // unfortunately we can't drop all the collections in mongodb in one go so we end up with the sort of callback-doom code here where we have to call the drop method one after the other.  this could take time on large databases.
+  users.drop(() => {
+    comments.drop(() => {
+      blogposts.drop(() => {
+        done();
+      });
+    });
   });
 });
