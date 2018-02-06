@@ -27,11 +27,11 @@ module.exports = (criteria, sortProperty, offset = 0, limit = 20) => {
     .skip(offset)
     .limit(limit);
 
-  return Promise.all([query, Artist.count()])
+  return Promise.all([query, Artist.find(buildQuery(criteria)).count()])
     .then((results) => {
       return {
         all: results[0],      // the artists found
-        count: results[1],    // number of artists in the db
+        count: results[1],    // number of artists returned by the query
         offset,
         limit
       };
