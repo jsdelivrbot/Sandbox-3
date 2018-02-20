@@ -28,4 +28,25 @@ describe('Drivers controller', () => {
     
   });
 
+  it('PUT to /api/drivers/:id edits an existing driver', (done) => {
+    const driver = new Driver({ email: 't@t.com', isDriving: false });
+
+    // save the driver
+    driver.save()
+      .then(() => {
+        // then use supertest to make a PUT request
+        request(app)
+          .put(`/api/drivers/${driver._id}`)
+          .send({ isDriving: true })    // send the new data
+          .end(() => {
+            // then find the driver and assert that the value for 'driving' has changed
+            Driver.findOne({ email: 't@t.com' })
+              .then(driver => {
+                assert(driver.isDriving === true);
+                done();
+              });
+          });
+      });
+  });
+
 });
