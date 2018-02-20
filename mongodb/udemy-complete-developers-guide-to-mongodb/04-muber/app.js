@@ -5,7 +5,9 @@ const mongoose = require('mongoose');
 const app = express();
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/muber');
+if (process.env.NODE_ENV !== 'test') {
+  mongoose.connect('mongodb://localhost/muber');
+}
 
 // use bodyParser middleware on every request so place it before any other requests handled by the routes function
 app.use(bodyParser.json());
