@@ -5,6 +5,19 @@ module.exports = {
     res.send({ hi: 'there' });
   },
 
+  index(req, res, next) {
+    // req.query is reference to the query string in the URL eg. xyz.com?lng=80&lat=20
+    const { lng, lat } = req.query;
+
+    // geoNear will find drivers which are geographically near to the lng and lat values
+    Driver.geoNear(
+      { type: 'Point', coordinates: [parseFloat(lng), parseFloat(lat)] },
+      { spherical: true, maxDistance: 200000 }    // maxDistance is in metres, so 200Km
+    )
+    .then((drivers) => res.send(drivers))
+    .catch(next);
+  },
+
   // create a driver
   create(req, res, next) {
     // get the data from the request body

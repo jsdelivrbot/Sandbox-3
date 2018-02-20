@@ -16,4 +16,7 @@ module.exports = (app) => {
 
   // DELETE http://localhost:3050/spi/drivers/xyz
   app.delete('/api/drivers/:id', DriversController.delete);
+
+  // GET http://localhost:3050/api/drivers
+  app.get('/api/drivers', DriversController.index);
 };
