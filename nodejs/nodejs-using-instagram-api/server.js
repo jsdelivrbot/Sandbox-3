@@ -8,7 +8,7 @@ const ig = require('instagram-node').instagram();
 app.use(express.static(__dirname + '/public'));
 
 // set the view engine
-app.set('view engine', 'ejs');
+app.set('view engine', 'pug');
 
 // configure instagram app with your access token
 ig.use({

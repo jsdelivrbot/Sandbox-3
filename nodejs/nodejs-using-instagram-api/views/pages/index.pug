@@ -1,0 +1,25 @@
+doctype html
+html(lang="en")
+  head
+    include ../partials/head.pug
+  body.container
+    header
+      include ../partials/header.pug
+    
+    main
+      .row
+        each gram in grams
+          .instagram-pic.col-sm-3
+            a(href=gram.link target="_blank")
+              img.img-responsive(src=gram.images.standard_resolution.url)
+            .instagram-bar
+              .likes
+                span.glyphicon.glyphicon-heart
+                = gram.likes.count
+              
+              .comments
+                span.glyphicon.glyphicon-comment
+                = gram.comments.count
+
+    footer
+      include ../partials/footer.pug
