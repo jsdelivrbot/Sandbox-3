@@ -39,3 +39,15 @@ path.join(__dirname, './src/views');
 * Added package body-parser, this will make our form data available on the request body when we submit the form.
   * By adding ```app.use(bodyParser.urlencoded...);``` we can format the data sent to the server as ```application/x-www-form-urlencoded```
 * Added express-validator package to check that the user has entered both fields. This package is a middleware that provides a number of useful methods for sanitisation and validation of user input.
+
+## Interact with a Database
+* Added dotenv package ```npm i -S dotenv```
+> We'll need somewhere to specify our database connection details. For this, we’ll use a configuration file (which should notbe checked into version control) and the dotenv package.
+
+> Dotenv will load our connection details from the configuration file into Node's ```process.env```.
+
+> We would need to add a .env file to the application root folder which would contain configuration settings. For example,
+```DATABASE=mongodb://[URL]:[PORT]/[DB-NAME]``` or
+```DATABASE=mongodb://<dbuser>:<dbpassword>@[URL]:[PORT]/[DB-NAME]```
+
+* Added Mongoose package to establish a connection with and perform operations on our database ```npm i -S mongoose```
