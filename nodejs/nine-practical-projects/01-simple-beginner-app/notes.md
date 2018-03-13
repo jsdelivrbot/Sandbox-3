@@ -34,3 +34,8 @@ path.join(__dirname, './src/views');
 * Altered ./views/form.pug to use the layout
 * Passed an object along in the res.render method in the route so that the title can be displayed correctly
 
+## Dealing with Forms in Express
+* Added router.post method to handle when the form is posted - currently only redirects back to the registration form
+* Added package body-parser, this will make our form data available on the request body when we submit the form.
+  * By adding ```app.use(bodyParser.urlencoded...);``` we can format the data sent to the server as ```application/x-www-form-urlencoded```
+* Added express-validator package to check that the user has entered both fields. This package is a middleware that provides a number of useful methods for sanitisation and validation of user input.
