@@ -65,3 +65,8 @@ path.join(__dirname, './src/views');
 * Added users.htpasswd to the project root 
   * Used http://www.htaccesstools.com/htpasswd-generator/ to generate passwords
 * Added the http-auth as middleware to the ```GET '/registrations'``` route
+
+## Adding some polish
+* Added a public folder for express to serve static files
+* Added Bootstrap v4
+* Created our own styles and updated the templates
