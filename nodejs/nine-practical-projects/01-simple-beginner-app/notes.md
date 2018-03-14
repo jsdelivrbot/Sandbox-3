@@ -55,3 +55,8 @@ path.join(__dirname, './src/views');
 ## Define a Mongoose Schema and Save Data
 * Add a Registration schema in ./models/Registration.js
 * Updated the POST route to save the data to the DB
+
+## Retrieve the records from the database
+* Added a new route ```GET '/registrations'``` to get the registrations stored in the database
+* Added a new index.pug to list the registrations we found in the new route
+
