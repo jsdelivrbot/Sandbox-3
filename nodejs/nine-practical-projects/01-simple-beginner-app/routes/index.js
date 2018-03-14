@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const { body, validationResult } = require('express-validator/check');
 const path = require('path');
 const auth = require('http-auth');
+const constants = require('./helper');
 
 const router = express.Router();
 const Registration = mongoose.model('Registration');
@@ -13,7 +14,7 @@ const basic = auth.basic({
 
 // GET '/'
 router.get('/', (req, res) => {
-  res.render('form', { title: 'Registration Form!' });
+  res.render('form', { title: constants.REGISTRATION_FORM_TITLE });
 });
 
 // POST '/'
@@ -21,10 +22,10 @@ router.post('/',
   [ 
     body('name')
       .isLength({min: 1})
-      .withMessage('Please enter a name'),
+      .withMessage(constants.ENTER_NAME),
     body('email')
       .isLength({min: 1})
-      .withMessage('Please enter an email'),
+      .withMessage(constants.ENTER_EMAIL),
   ], 
   (req, res) => {
     const errors = validationResult(req);
@@ -34,11 +35,17 @@ router.post('/',
       // which is what is needed by our Registration schema
       const registration = new Registration(req.body);
       registration.save()
-        .then(() => res.send('Thank you for your registration!') )
-        .catch((error) => res.send('Sorry! Something went wrong.') );
+        .then(() => res.render('result', { 
+          title: constants.REGISTRATION_SUCCESS, 
+          message: constants.THANKS_FOR_REGISTERING 
+        }))
+        .catch((error) => res.render('result', { 
+          title: constants.REGISTRATION_FAIL,
+          message: constants.SOMETHING_WENT_WRONG 
+        }));
     } else {
       res.render('form', {
-        title: 'Rregistration Form!',
+        title: constants.REGISTRATION_FORM_TITLE,
         errors: errors.array(),
         data: req.body,
       });
@@ -49,9 +56,19 @@ router.post('/',
 router.get('/registrations', auth.connect(basic), (req, res) => {
   Registration.find()
     .then((registrations) => {
-      res.render('index', { title: 'Listing Registrations!', registrations });
+      res.render('index', { title: constants.LISTING_REGISTRATIONS_TITLE, registrations });
     })
-    .catch(() => { res.send('Sorry! Something went wrong.'); });
+    .catch(() => { res.send(constants.SOMETHING_WENT_WRONG); });
+});
+
+// DELETE '/registrations/:id
+router.post('/registrations/:id', (req, res) => {
+  const id = req.params.id;
+  Registration.findByIdAndRemove(id)
+    .then(() => {
+      res.redirect('/registrations')
+    })
+    .catch(() => { res.send(constants.SOMETHING_WENT_WRONG); });
 });
 
 module.exports = router;

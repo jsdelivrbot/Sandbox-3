@@ -6,10 +6,17 @@ block content
     table.listing-table.table-dark.table-striped
       tr
         th Name
-        th Email
+        th(colspan="2") Email
       each registration in registrations
         tr
           td= registration.name
           td= registration.email
+          td.centerContent
+            form(action=`/registrations/${registration._id}` method="POST") 
+              button.btn.btn-sm.btn-link(type="submit") &#x274C;
   else
     p No registrations yet :(
+
+  .centerContent
+    a(href="/")
+      button.btn.btn-link(type="button") Home

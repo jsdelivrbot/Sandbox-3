@@ -70,3 +70,24 @@ path.join(__dirname, './src/views');
 * Added a public folder for express to serve static files
 * Added Bootstrap v4
 * Created our own styles and updated the templates
+
+# Bonus
+## Escaping ASCII characters
+> A character escape is a way of representing a character in source code using only ASCII characters. The Hex value can be looked up online.
+```CSS
+/* In CSS must be 4 or 6 characters */
+/* This example displays a cross */
+li:before{
+  content:"\2718"; /* or \002718 */
+  color:#f00;
+}
+```
+```HTML
+<p>
+  &#x20AC; <!-- hexadecimal character reference -->
+</p>
+<p>
+  &euro;  <!-- named character reference -->
+</p>
+```
+
