@@ -51,3 +51,7 @@ path.join(__dirname, './src/views');
 ```DATABASE=mongodb://<dbuser>:<dbpassword>@[URL]:[PORT]/[DB-NAME]```
 
 * Added Mongoose package to establish a connection with and perform operations on our database ```npm i -S mongoose```
+
+## Define a Mongoose Schema and Save Data
+* Add a Registration schema in ./models/Registration.js
+* Updated the POST route to save the data to the DB
