@@ -60,3 +60,8 @@ path.join(__dirname, './src/views');
 * Added a new route ```GET '/registrations'``` to get the registrations stored in the database
 * Added a new index.pug to list the registrations we found in the new route
 
+## Add HTTP Authentication
+* Added http-auth package ```npm i -S http-auth```
+* Added users.htpasswd to the project root 
+  * Used http://www.htaccesstools.com/htpasswd-generator/ to generate passwords
+* Added the http-auth as middleware to the ```GET '/registrations'``` route
